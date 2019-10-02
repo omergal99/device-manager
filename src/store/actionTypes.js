@@ -1,0 +1,6 @@
+
+export const SET_HOME_DATA = 'SET_HOME_DATA'
+
+
+export const SET_DEVICE_DATA = 'SET_DEVICE_DATA'
+export const UPDATE_CURRDEVICE_BY_ID = 'UPDATE_CURRDEVICE_BY_ID'
