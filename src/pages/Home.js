@@ -16,7 +16,7 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>Mamamama</h1>
+      <h1>Device Manager</h1>
       <Main />
     </div>
   );

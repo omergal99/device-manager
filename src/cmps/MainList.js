@@ -10,9 +10,9 @@ function MainList({ devices }) {
   }
 
   return (
-    <div className="main-list">
+    <div className="main-list-desktop">
       {devices.map(dev => {
-        return <div onClick={()=> selectDevice(dev._id)} key={dev._id}>{dev.name} >></div>
+        return <div className="single-device" onClick={()=> selectDevice(dev._id)} key={dev._id}>{dev.name} >></div>
       })}
     </div>
   );

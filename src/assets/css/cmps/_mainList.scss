@@ -1,0 +1,15 @@
+.main-list-desktop {
+  flex-grow: 1;
+  max-width: 220px;
+  min-width: 140px;
+  overflow: auto;
+  border-right: 1px solid #969696;
+  .single-device{
+    cursor: pointer;
+    padding: 8px 0;
+    border-bottom: 1px solid #969696;
+    &:hover{
+      background-color: rgb(195, 231, 248);
+    }
+  }
+}

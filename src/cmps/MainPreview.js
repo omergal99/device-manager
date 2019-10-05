@@ -4,7 +4,12 @@ function MainPreview({ device }) {
 
   return (
     <div className="main-preview">
-      <h3>{device.name}</h3>
+      <div className="device-catagory flex space-even wrap">
+        <span>Connections</span>
+        <span>Method</span>
+        <span>History</span>
+      </div>
+      <h3>{device.name ? device.name : 'Choose Device'}</h3>
     </div>
   );
 }

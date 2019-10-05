@@ -1,0 +1,19 @@
+.main-preview {
+  height: 100%;
+  background-color: #cdc9e8;
+  flex-grow: 3;
+  .device-catagory {
+    background-color: blanchedalmond;
+    border-bottom: 1px solid #969696;
+    span {
+      padding: 8px 0;
+      cursor: pointer;
+      width: 33.333333%;
+      min-width: 130px;
+      flex-grow: 1;
+      &:hover {
+        background-color: rgb(255, 198, 133);
+      }
+    }
+  }
+}
