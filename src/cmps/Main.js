@@ -1,44 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../store/actions';
+// import * as MediaService from '../services/MediaService';
 
-import MainList from './MainList'
-import MainPreview from './MainPreview'
+import MainList from './MainList';
+import MainPreview from './MainPreview';
+
+import IsWinWidthDesk from './IsWinWidthDesk';
 
 function Main() {
 
   const dispatch = useDispatch();
   const deviceStore = useSelector(state => state.deviceStore);
-  const [isOpenDeviceList, setIsOpenDeviceList] = useState(false);
-  const isDesktop = (window.orientation === undefined && navigator.userAgent.indexOf('Mobile') === -1);
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  const isDesktop = IsWinWidthDesk();
 
   useEffect(() => {
     dispatch(actions.loadDeviceData());
   }, [dispatch]);
 
   const toggleDeviceMenu = () => {
-    setIsOpenDeviceList(!isOpenDeviceList);
+    setIsListOpen(!isListOpen);
   }
 
   return (
     <div className="main">
 
       <div className="bar-device">
-        {deviceStore &&
+        {deviceStore && deviceStore.currDevice &&
           <h2>{deviceStore.currDevice.name}</h2>
         }
         {!isDesktop &&
-          <div>
+          <div className="only-mobile">
+            <div className="mask-layer" style={{ display: isListOpen ? '' : 'none' }} onClick={toggleDeviceMenu}></div>
             <button onClick={toggleDeviceMenu}>Devices</button>
-            {isOpenDeviceList && <div className="menu-list-mobile">
-              <MainList devices={deviceStore.list} />
-            </div>}
+            {isListOpen &&
+              <MainList devices={deviceStore.list} isMobile={true} currDevice={deviceStore.currDevice} />
+            }
           </div>
         }
       </div>
 
       {deviceStore && <div className="preview-device flex">
-        {isDesktop && <MainList devices={deviceStore.list} />}
+        {isDesktop &&
+          <MainList devices={deviceStore.list} isMobile={false} currDevice={deviceStore.currDevice} />
+        }
         <MainPreview device={deviceStore.currDevice} />
       </div>}
     </div>

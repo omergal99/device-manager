@@ -1,6 +1,7 @@
 import {
   SET_DEVICE_DATA,
-  UPDATE_CURRDEVICE_BY_ID
+  SET_CURR_DEVICE_BY_ID,
+  UPDATE_CURR_DEVICE,
 } from '../actionTypes';
 
 const initialState = null;
@@ -10,9 +11,12 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SET_DEVICE_DATA:
       return action.payload;
-    case UPDATE_CURRDEVICE_BY_ID:
+    case SET_CURR_DEVICE_BY_ID:
       const deviceById = copy.list.find(dev => dev._id === action.payload);
       copy.currDevice = deviceById;
+      return copy;
+    case UPDATE_CURR_DEVICE:
+      copy.currDevice = action.payload;
       return copy;
     default:
       return state;

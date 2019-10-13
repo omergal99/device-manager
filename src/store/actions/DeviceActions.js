@@ -1,7 +1,8 @@
 import DeviceService from '../../services/DeviceService';
 import {
   SET_DEVICE_DATA,
-  UPDATE_CURRDEVICE_BY_ID,
+  SET_CURR_DEVICE_BY_ID,
+  UPDATE_CURR_DEVICE
 } from '../actionTypes';
 
 function loadDeviceData() {
@@ -13,11 +14,18 @@ function loadDeviceData() {
 
 function changeCurrDeviceById(id) {
   return async (dispatch) => {
-    dispatch({ type: UPDATE_CURRDEVICE_BY_ID, payload: id })
+    dispatch({ type: SET_CURR_DEVICE_BY_ID, payload: id })
+  }
+}
+
+function updateCurrDevice(updatedDevice) {
+  return async (dispatch) => {
+    dispatch({ type: UPDATE_CURR_DEVICE, payload: updatedDevice })
   }
 }
 
 export default {
   loadDeviceData,
-  changeCurrDeviceById
+  changeCurrDeviceById,
+  updateCurrDevice,
 }
