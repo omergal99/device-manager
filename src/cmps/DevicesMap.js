@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DevicesMap({ device, MouseDown }) {
+function DevicesMap({ device, MouseDown, Touchstart }) {
   return (
     <div className="playground">
       <h3>{device.name ? device.name : 'Choose Device'}</h3>
@@ -10,9 +10,9 @@ function DevicesMap({ device, MouseDown }) {
           zIndex: device.zIndex
         }}
         onMouseDown={MouseDown}
-        onTouchStart={MouseDown}
+        onTouchStart={Touchstart}
       >
-        <img src="assets/img/icons/phone.png" alt="Device" />
+        <img draggable="false" src="assets/img/icons/phone.png" alt="Device" title="Device" />
       </div>
     </div>
   );

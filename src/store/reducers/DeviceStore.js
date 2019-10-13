@@ -12,6 +12,7 @@ export default (state = initialState, action) => {
     case SET_DEVICE_DATA:
       return action.payload;
     case SET_CURR_DEVICE_BY_ID:
+      copy.list = copy.list.map(dev => copy.currDevice && dev._id === copy.currDevice._id ? copy.currDevice : dev);
       const deviceById = copy.list.find(dev => dev._id === action.payload);
       copy.currDevice = deviceById;
       return copy;
