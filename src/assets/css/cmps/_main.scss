@@ -10,6 +10,7 @@
     }
     .only-mobile {
       .mask-layer {
+        z-index: 1000000000;
         position: fixed;
         height: 100%;
         width: 100%;

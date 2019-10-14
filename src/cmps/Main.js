@@ -46,7 +46,7 @@ function Main() {
         {isDesktop &&
           <MainList devices={deviceStore.list} isMobile={false} currDevice={deviceStore.currDevice} />
         }
-        <MainPreview device={deviceStore.currDevice} />
+        <MainPreview currDevice={deviceStore.currDevice} />
       </div>}
     </div>
   );

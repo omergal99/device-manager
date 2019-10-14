@@ -1,59 +1,68 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import actions from '../store/actions';
 
 import DevicesMap from './DevicesMap';
+import RoutersMap from './RoutersMap';
 
-function MainPreview({ device }) {
+function MainPreview({ currDevice }) {
 
   const dispatch = useDispatch();
   const [pointerDiff, setPointerDiff] = useState({ x: 1, y: 1 });
   const [update, setToUpdate] = useState('');
-  const [copyDevice, setCopyDevice] = useState(null);
-  const mainDiv = useRef(null);
+  const [device, setDevice] = useState(null);
+  const [typeToMove, setTypeToMove] = useState(null);
 
-  const moveToNewLocation = useCallback(({ clientX, clientY }) => {
-    if (copyDevice && copyDevice.isDraging) {
-      let copy = copyDevice;
-      setToUpdate({});
-      const topGap = window.innerHeight - mainDiv.current.offsetHeight + 36;
-      const leftGap = window.innerWidth - mainDiv.current.offsetWidth;
-      copy.location = { x: (clientX - leftGap - pointerDiff.x), y: (clientY - topGap - pointerDiff.y) };
-      setCopyDevice(copy);
+  // ********************************** START
+
+  const calcForPointerDiff = ({ clientX, clientY }, type) => {
+    if (type.name === 'Device') {
+      const temp = { x: clientX - device.location.x, y: clientY - device.location.y }
+      setPointerDiff(temp);
     }
-  }, [copyDevice, pointerDiff])
-
-  const calcForPointerDiff = ({ clientX, clientY }) => {
-    const topGap = window.innerHeight - mainDiv.current.offsetHeight + 36;
-    const leftGap = window.innerWidth - mainDiv.current.offsetWidth;
-    const diffX = clientX - copyDevice.location.x - leftGap;
-    const diffY = clientY - copyDevice.location.y - topGap;
-    setPointerDiff({ x: diffX, y: diffY });
-  }
-
-  const mouseDown = ({ clientX, clientY }) => {
-    if (copyDevice && copyDevice._id) {
-      setCopyDevice(prevState => ({ ...prevState, isDraging: true }));
-      calcForPointerDiff({ clientX, clientY });
+    if (type.name === 'Router') {
+      const temp = { x: clientX - device.routers[type.idx].location.x, y: clientY - device.routers[type.idx].location.y }
+      setPointerDiff(temp);
     }
   }
 
-  const touchstart = (ev) => {
-    if (copyDevice && copyDevice._id) {
-      setCopyDevice(prevState => ({ ...prevState, isDraging: true }));
+  const mouseDown = ({ clientX, clientY }, type) => {
+    if (device && device._id) {
+      setDevice(prevState => ({ ...prevState, isDraging: true }));
+      setTypeToMove(type);
+      calcForPointerDiff({ clientX, clientY }, type);
+    }
+  }
+
+  const touchstart = (ev, type) => {
+    if (device && device._id) {
+      setDevice(prevState => ({ ...prevState, isDraging: true }));
+      setTypeToMove(type);
       const clientX = ev.changedTouches[0].clientX;
       const clientY = ev.changedTouches[0].clientY;
-      calcForPointerDiff({ clientX, clientY });
+      calcForPointerDiff({ clientX, clientY }, type);
     }
   }
 
-  const handleMouseUp = useCallback(() => {
-    if (copyDevice && copyDevice.isDraging) {
-      setCopyDevice(prevState => ({ ...prevState, isDraging: false }));
-      dispatch(actions.updateCurrDevice({ ...copyDevice, isDraging: false }));
+  // ********************************** MOVE
+
+  const moveToNewLocation = useCallback(({ clientX, clientY }) => {
+    if (device && device.isDraging) {
+      let copy = device;
+      setToUpdate({}); // FOR UPDATE - CHAECK WHY
+      switch (typeToMove.name) {
+        case 'Device':
+          copy.location = { x: (clientX - pointerDiff.x), y: (clientY - pointerDiff.y) };
+          break;
+        case 'Router':
+          copy.routers[typeToMove.idx].location = { x: (clientX - pointerDiff.x), y: (clientY - pointerDiff.y) };
+          break;
+        default: break;
+      }
+      setDevice(copy);
     }
-  }, [copyDevice, dispatch])
+  }, [device, pointerDiff, typeToMove])
 
   const handleMouseMove = useCallback(({ clientX, clientY }) => {
     moveToNewLocation({ clientX, clientY });
@@ -65,13 +74,22 @@ function MainPreview({ device }) {
     moveToNewLocation({ clientX, clientY });
   }, [moveToNewLocation])
 
-  useEffect(() => {
-    if ((device && !copyDevice) || (device && copyDevice && device._id !== copyDevice._id)) {
-      setCopyDevice(device);
-      // for dispatch in handleMouseMove:
-      // setCopyDevice({...device, isDraging:false});
+  // ********************************** STOP
+
+  const handleMouseUp = useCallback(() => {
+    if (device && device.isDraging) {
+      setDevice(prevState => ({ ...prevState, isDraging: false }));
+      dispatch(actions.updateCurrDevice({ ...device, isDraging: false }));
     }
-  }, [device, copyDevice]);
+  }, [device, dispatch])
+
+  // ***************************************************** useEffect
+
+  useEffect(() => {
+    if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
+      setDevice(currDevice);
+    }
+  }, [currDevice, device]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove, false);
@@ -86,29 +104,24 @@ function MainPreview({ device }) {
     }
   }, [handleMouseMove, handleMouseUp, handleTouchMove]);
 
-
-
   return (
-    <div className="main-preview" ref={mainDiv}>
+    <div className="main-preview">
+
       <div className="device-catagory flex space-even wrap">
         <span>Details</span>
         <span>Connections</span>
         <span>History</span>
       </div>
 
-      {copyDevice && <DevicesMap device={copyDevice} MouseDown={mouseDown} Touchstart={touchstart} />}
-      {/* {copyDevice && <div className="playground">
-        <h3>{copyDevice.name ? copyDevice.name : 'Choose Device'}</h3>
-        <div className="device-icon"
-          style={{
-            top: `${copyDevice.location.y}px`, left: `${copyDevice.location.x}px`,
-            zIndex: copyDevice.zIndex
-          }}
-          onMouseDown={mouseDown}
-        >
-          <img src="assets/img/icons/phone.png" alt="Device" />
-        </div>
-      </div>} */}
+      <div className="playground">
+        {device &&
+          <div>
+            <DevicesMap device={device} MouseDown={mouseDown} Touchstart={touchstart} />
+            <RoutersMap routers={device.routers} MouseDown={mouseDown} Touchstart={touchstart} />
+          </div>
+        }
+      </div>
+
     </div>
   );
 }
