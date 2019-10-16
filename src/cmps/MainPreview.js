@@ -23,6 +23,8 @@ function MainPreview({ currDevice }) {
     setPointerDiff(temp);
   }
   const clientDown = (ev, type) => {
+    // ev.persist()
+    // console.log(ev)
     const touches = ev.changedTouches;
     (!touches) ? calcPointerDiff(ev, type)
       : calcPointerDiff({ clientX: touches[0].clientX, clientY: touches[0].clientY }, type);
