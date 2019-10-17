@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/device-manager/static/css/main.238ce0b3.chunk.css",
-    "main.js": "/device-manager/static/js/main.dcbe8c44.chunk.js",
-    "main.js.map": "/device-manager/static/js/main.dcbe8c44.chunk.js.map",
+    "main.js": "/device-manager/static/js/main.49f3a431.chunk.js",
+    "main.js.map": "/device-manager/static/js/main.49f3a431.chunk.js.map",
     "runtime-main.js": "/device-manager/static/js/runtime-main.8674e9af.js",
     "runtime-main.js.map": "/device-manager/static/js/runtime-main.8674e9af.js.map",
     "static/js/2.c6e7724f.chunk.js": "/device-manager/static/js/2.c6e7724f.chunk.js",
     "static/js/2.c6e7724f.chunk.js.map": "/device-manager/static/js/2.c6e7724f.chunk.js.map",
     "index.html": "/device-manager/index.html",
-    "precache-manifest.34dd560ad8f315eaf3d629b3b73e83c4.js": "/device-manager/precache-manifest.34dd560ad8f315eaf3d629b3b73e83c4.js",
+    "precache-manifest.bb7148f762ded139bc5c73019bf5e446.js": "/device-manager/precache-manifest.bb7148f762ded139bc5c73019bf5e446.js",
     "service-worker.js": "/device-manager/service-worker.js",
     "static/css/main.238ce0b3.chunk.css.map": "/device-manager/static/css/main.238ce0b3.chunk.css.map",
     "static/media/App.scss": "/device-manager/static/media/SourceSansPro-Regular.3f482321.ttf"
