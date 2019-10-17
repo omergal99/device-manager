@@ -23,6 +23,7 @@ function MainPreview({ currDevice }) {
     setPointerDiff(temp);
   }
   const clientDown = (ev, type) => {
+    ev.stopPropagation();
     // ev.persist()
     // console.log(ev)
     const touches = ev.changedTouches;
