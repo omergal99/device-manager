@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 
 import DevicesMap from './DevicesMap';
 import RoutersMap from './RoutersMap';
+import DrawLine from './DrawLine';
+
 import DraggingListener from './DraggingListener';
 
 function MainPreview({ currDevice }) {
@@ -23,7 +25,8 @@ function MainPreview({ currDevice }) {
     setPointerDiff(temp);
   }
   const clientDown = (ev, type) => {
-    ev.stopPropagation();
+    // ev.stopPropagation();
+    // ev.preventDefault();
     // ev.persist()
     // console.log(ev)
     const touches = ev.changedTouches;
@@ -36,12 +39,28 @@ function MainPreview({ currDevice }) {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
       setDevice(currDevice);
     }
-  }, [currDevice, device]);
+  }, [setDevice, device, currDevice]);
 
-  var newDevice = DraggingListener(device, pointerDiff, typeToMove);
+  const newDevice = DraggingListener(device, pointerDiff, typeToMove);
   useEffect(() => {
     setDevice(newDevice);
   }, [setDevice, newDevice]);
+
+  const locationById = (id) => {
+    if (id.charAt(0) === 'R') {
+      const router = device.routers.find(router => router._id === id);
+      return router.location;
+    }
+    if (id.charAt(0) === 'P') {
+      return device.location;
+    }
+  }
+
+  const linesBetweenDevices = device && device.connections.map((connected, idx) => {
+    const point1 = locationById(connected[0]);
+    const point2 = locationById(connected[1]);
+    return <DrawLine point1={point1} point2={point2} key={idx} />
+  })
 
   return (
     <div className="main-preview">
@@ -53,10 +72,11 @@ function MainPreview({ currDevice }) {
       </div>
 
       <div className="playground">
-        {device &&
+        {device && device.location &&
           <div>
             <DevicesMap device={device} clientDown={clientDown} />
             <RoutersMap routers={device.routers} clientDown={clientDown} />
+            {linesBetweenDevices}
           </div>
         }
       </div>

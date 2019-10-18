@@ -26,7 +26,8 @@ function DraggingListener(device, pointerDiff, typeToMove) {
 
   const clientMove = useCallback((ev) => {
     if (device && device.isDraging) {
-      ev.stopPropagation();
+      // ev.stopPropagation();
+      // ev.preventDefault();
       const touches = ev.changedTouches;
       (!touches) ? moveToNewLocation(ev)
         : moveToNewLocation({ clientX: touches[0].clientX, clientY: touches[0].clientY });
@@ -36,7 +37,8 @@ function DraggingListener(device, pointerDiff, typeToMove) {
   // ********************************** STOP
   const clientUp = useCallback((ev) => {
     if (device && device.isDraging) {
-      ev.stopPropagation();
+      // ev.stopPropagation();
+      // ev.preventDefault();
       setNewDevice(prevState => ({ ...prevState, isDraging: false }));
       dispatch(actions.updateCurrDevice({ ...newDevice, isDraging: false }));
     }
