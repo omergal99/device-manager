@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-
-import DevicesMap from './DevicesMap';
+import DeviceMap from './DeviceMap';
 import RoutersMap from './RoutersMap';
-import DrawLine from './DrawLine';
+import DrawLineList from './DrawLineList';
 
 import DraggingListener from './DraggingListener';
 
@@ -15,8 +14,6 @@ function MainPreview({ currDevice }) {
 
   // ********************************** START
   const calcPointerDiff = ({ clientX, clientY }, type) => {
-    setDevice(prevState => ({ ...prevState, isDraging: true }));
-    setTypeToMove(type);
     let temp = { x: 1, y: 1 };
     temp = (type.name === 'Device') ?
       { x: clientX - device.location.x, y: clientY - device.location.y } : temp;
@@ -29,6 +26,14 @@ function MainPreview({ currDevice }) {
     // ev.preventDefault();
     // ev.persist()
     // console.log(ev)
+
+    // var copy = {...device};
+    // copy.isDraging = true;
+    // setDevice(copy);
+    setDevice(prevState => ({ ...prevState, isDraging: true }));
+
+    // console.log(type)
+    setTypeToMove(type);
     const touches = ev.changedTouches;
     (!touches) ? calcPointerDiff(ev, type)
       : calcPointerDiff({ clientX: touches[0].clientX, clientY: touches[0].clientY }, type);
@@ -39,28 +44,31 @@ function MainPreview({ currDevice }) {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
       setDevice(currDevice);
     }
-  }, [setDevice, device, currDevice]);
+  }, [device, currDevice]);
 
   const newDevice = DraggingListener(device, pointerDiff, typeToMove);
   useEffect(() => {
     setDevice(newDevice);
-  }, [setDevice, newDevice]);
+  }, [newDevice]);
 
-  const locationById = (id) => {
-    if (id.charAt(0) === 'R') {
-      const router = device.routers.find(router => router._id === id);
-      return router.location;
-    }
-    if (id.charAt(0) === 'P') {
-      return device.location;
+
+
+  const createConnection = (originId, targetId) => {
+    const isFound = device.connections
+      .find(con => (con[0] === originId && con[1] === targetId) || (con[1] === originId && con[0] === targetId));
+    if (!isFound) {
+      let copy = { ...device };
+      copy.connections.push([originId, targetId]);
+      setDevice(copy);
     }
   }
 
-  const linesBetweenDevices = device && device.connections.map((connected, idx) => {
-    const point1 = locationById(connected[0]);
-    const point2 = locationById(connected[1]);
-    return <DrawLine point1={point1} point2={point2} key={idx} />
-  })
+  const removeConnection = (con1, con2) => {
+    const idx = device.connections.findIndex(con => con[0] === con1 && con[1] === con2);
+    let copy = { ...device };
+    copy.connections.splice(idx, 1);
+    setDevice(copy);
+  }
 
   return (
     <div className="main-preview">
@@ -73,11 +81,12 @@ function MainPreview({ currDevice }) {
 
       <div className="playground">
         {device && device.location &&
-          <div>
-            <DevicesMap device={device} clientDown={clientDown} />
-            <RoutersMap routers={device.routers} clientDown={clientDown} />
-            {linesBetweenDevices}
-          </div>
+          <>
+            <DeviceMap device={device} clientDown={clientDown} onCreateConnection={createConnection} />
+            <RoutersMap routers={device.routers} clientDown={clientDown} onCreateConnection={createConnection} />
+            <DrawLineList lines={device.connections} routers={device.routers} deviceLocation={device.location}
+              onRemoveConnection={removeConnection} />
+          </>
         }
       </div>
 

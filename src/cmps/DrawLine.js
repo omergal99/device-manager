@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function DrawLine({point1, point2}) {
+function DrawLine({ point1, point2, onRemoveConnection }) {
 
   const line = useRef(null);
-  const path = useRef(null);
-  const svg = useRef(null);
   const [boxSize] = useState(100);
+  const [optionsSize] = useState(40);
+  const [toggleOptions, setToggleOptions] = useState(false);
+
+  const minX = Math.min(point1.x, point2.x);
+  const minY = Math.min(point1.y, point2.y);
+  const absX = Math.abs(point1.x - point2.x);
+  const absY = Math.abs(point1.y - point2.y);
 
   useEffect(() => {
     updateConnection();
@@ -14,43 +19,54 @@ function DrawLine({point1, point2}) {
   const updateConnection = () => {
     const halfBoxSize = boxSize / 2;
 
-    var maxX = Math.abs(point2.x - point1.x);
-    var maxY = Math.abs(point2.y - point1.y);
+    const destX = absX + halfBoxSize;
+    const destY = absY + halfBoxSize;
 
-    var absX = maxX + halfBoxSize;
-    var absY = maxY + halfBoxSize;
-
-    if ((point1.x === Math.min(point1.x, point2.x) &&
-      point1.y === Math.min(point1.y, point2.y)) ||
-      (point2.x === Math.min(point1.x, point2.x) &&
-        point2.y === Math.min(point1.y, point2.y))) {
+    if ((point1.x === minX && point1.y === minY) ||
+      (point2.x === minX && point2.y === minY)) {
       // TOP LEFT & BOTTOM RIGHT
       line.current.setAttributeNS(null, 'y1', halfBoxSize);
-      line.current.setAttributeNS(null, 'y2', absY);
+      line.current.setAttributeNS(null, 'y2', destY);
     } else {
       // TOP RIGHT of BOTTOM RIGHT
-      line.current.setAttributeNS(null, 'y1', absY);
+      line.current.setAttributeNS(null, 'y1', destY);
       line.current.setAttributeNS(null, 'y2', halfBoxSize);
     }
     line.current.setAttributeNS(null, 'x1', halfBoxSize);
-    line.current.setAttributeNS(null, 'x2', absX);
+    line.current.setAttributeNS(null, 'x2', destX);
+  }
+
+  const styles = {
+    svg: {
+      top: `${minY}px`,
+      left: `${minX}px`,
+      height: `${absY + boxSize}px`,
+      width: `${absX + boxSize}px`
+    },
+    options: {
+      height: `${optionsSize}px`,
+      top: `${(absY + boxSize) / 2 + minY - (optionsSize / 2)}px`,
+      left: `${(absX + boxSize) / 2 + minX - (optionsSize / 2)}px`
+    }
   }
 
   return (
-    <svg ref={svg} style={{
-      top: `${Math.min(point1.y, point2.y)}px`,
-      left: `${Math.min(point1.x, point2.x)}px`,
-      width: `${Math.abs(point2.x - point1.x) + boxSize}px`,
-      height: `${Math.abs(point2.y - point1.y) + boxSize}px`
-    }}>
-      <line ref={line} className="line-connection" style={{
-        width: `${point2.x - point1.x + boxSize}px`,
-        height: `${point2.y - point1.y + boxSize}px`
-      }} />
-      <path ref={path} style={{ d: 'M 177 118 C 91 69 91 69 5 0', transform: 'translate(0,0.5)' }}
+    <>
+      <div className="svg-btn-options" style={styles.options} >
+        <img className="toggle-btn" src="assets/img/icons/menu4.png" alt="Options"
+          onClick={() => setToggleOptions(!toggleOptions)} />
+        {toggleOptions &&
+          <img className="option" src="assets/img/icons/remove.png" alt="Remove"
+            onClick={onRemoveConnection} />
+        }
+      </div>
+      <svg className="svg-line" style={styles.svg}>
+        <line ref={line} className="line" />
+        {/* <path ref={path} style={{ d: 'M 177 118 C 91 69 91 69 5 0', transform: 'translate(0,0.5)' }}
         pointerEvents="visibleStroke" version="1.1" fill="none" stroke="#456">
-      </path>
-    </svg>
+      </path> */}
+      </svg>
+    </>
   );
 }
 
