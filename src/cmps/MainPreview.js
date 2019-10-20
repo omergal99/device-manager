@@ -48,10 +48,8 @@ function MainPreview({ currDevice }) {
 
   const newDevice = DraggingListener(device, pointerDiff, typeToMove);
   useEffect(() => {
-    setDevice(newDevice);
+      setDevice(newDevice);
   }, [newDevice]);
-
-
 
   const createConnection = (originId, targetId) => {
     const isFound = device.connections
@@ -83,9 +81,10 @@ function MainPreview({ currDevice }) {
         {device && device.location &&
           <>
             <DeviceMap device={device} clientDown={clientDown} onCreateConnection={createConnection} />
-            <RoutersMap routers={device.routers} clientDown={clientDown} onCreateConnection={createConnection} />
-            <DrawLineList lines={device.connections} routers={device.routers} deviceLocation={device.location}
-              onRemoveConnection={removeConnection} />
+            <RoutersMap deviceId={device._id} routers={device.routers} clientDown={clientDown} onCreateConnection={createConnection} />
+            <DrawLineList lines={device.connections} routers={device.routers} onRemoveConnection={removeConnection}
+              deviceLocationId={{ location: device.location, _id: device._id }}
+            />
           </>
         }
       </div>

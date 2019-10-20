@@ -19,7 +19,7 @@ function RouterMap({ router, idx, clientDown, onCreateConnection }) {
   }
 
   return (
-    <div className="wrap-device" key={router._id}
+    <div className="wrap-device"
       style={{ top: `${router.location.y}px`, left: `${router.location.x}px`, zIndex: router.zIndex }}>
       <div className="device-icon"
         onMouseDown={ev => clientDown(ev, { name, idx })}

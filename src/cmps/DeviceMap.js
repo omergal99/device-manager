@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
 function DeviceMap({ device, clientDown, onCreateConnection }) {
 
   const name = 'Device';
-  const [toggleOptions, setToggleOptions] = useState(false);
+  const [toggleOptions, setToggleOptions] = useState('');
 
   const newConnection = () => {
     window.addEventListener('click', chackForConnection, false);
   }
+
   const chackForConnection = (ev) => {
     if (ev.target.getAttribute('src') !== 'assets/img/icons/make new connection.png') {
       if (ev.target.getAttribute('data-id') && ev.target.getAttribute('data-id') !== device._id) {
         onCreateConnection(device._id, ev.target.getAttribute('data-id'));
       }
       window.removeEventListener('click', chackForConnection, false);
-      setToggleOptions(false);
+      setToggleOptions('');
     }
   }
 
@@ -32,13 +33,14 @@ function DeviceMap({ device, clientDown, onCreateConnection }) {
         <span title={`${device.name}`}>{device.name}</span>
       </div>
       {/* TO CHACK WHAT MORE EFECTIVE BUTTON OR DIV */}
-      <button className="device-btn-options" onClick={() => setToggleOptions(!toggleOptions)}>
+      <button className="device-btn-options"
+        onClick={() => toggleOptions ? setToggleOptions('') : setToggleOptions(device._id)}>
         <img src="assets/img/icons/mehr3.png" alt="Options" />
       </button>
-      {toggleOptions &&
+      {toggleOptions === device._id &&
         <div className="device-options">
           <img src="assets/img/icons/details.png" alt="" />
-          <img src="assets/img/icons/make new connection.png" alt="" onClick={newConnection} />
+          <img src={"assets/img/icons/make new connection.png"} alt="" onClick={newConnection} />
           <img src="assets/img/icons/history.png" alt="" />
         </div>
       }

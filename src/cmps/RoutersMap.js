@@ -2,10 +2,11 @@ import React from 'react';
 
 import RouterMap from './RouterMap';
 
-function RoutersMap({ routers, clientDown, onCreateConnection }) {
+function RoutersMap({ routers, clientDown, onCreateConnection, deviceId }) {
 
   const RouterList = routers.map((router, idx) => {
-    return <RouterMap key={router._id} router={router} idx={idx} clientDown={clientDown} onCreateConnection={onCreateConnection}/>
+    return <RouterMap key={`${deviceId}${router._id}`} router={router} idx={idx} clientDown={clientDown}
+      onCreateConnection={onCreateConnection} />
   })
 
   return (
