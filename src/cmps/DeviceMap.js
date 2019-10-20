@@ -1,43 +1,41 @@
-import React, { lazy, useState } from 'react';
+import React, { useState } from 'react';
 
-function DeviceMap({ device, clientDown, onCreateConnection }) {
+function DeviceMap({ device: { type, connections = null, _id :id, name, location, zIndex }, onClientDown, onCreateConnection }) {
 
-  const name = 'Device';
   const [toggleOptions, setToggleOptions] = useState('');
+  const imgName = type.toLowerCase();
 
   const newConnection = () => {
     window.addEventListener('click', chackForConnection, false);
   }
-
-  const chackForConnection = (ev) => {
+  const chackForConnection = ev => {
     if (ev.target.getAttribute('src') !== 'assets/img/icons/make new connection.png') {
-      if (ev.target.getAttribute('data-id') && ev.target.getAttribute('data-id') !== device._id) {
-        onCreateConnection(device._id, ev.target.getAttribute('data-id'));
-      }
+      const dataId = ev.target.getAttribute('data-id');
+      (dataId && dataId !== id) && onCreateConnection(id, dataId);
       window.removeEventListener('click', chackForConnection, false);
       setToggleOptions('');
     }
   }
+  const sendClientDown = ev => {
+    const relation = connections ? 'Own' : 'Related';
+    onClientDown(ev, { value: relation, id });
+  };
+
+  const toggle = () => { toggleOptions === id ? setToggleOptions('') : setToggleOptions(id) }
 
   return (
-    <div className="wrap-device" style={{
-      top: `${device.location.y}px`, left: `${device.location.x}px`, zIndex: device.zIndex
-    }}>
-      <div className="device-icon"
-        onMouseDown={ev => clientDown(ev, { name, idx: 0 })}
-        onTouchStart={ev => clientDown(ev, { name, idx: 0 })}
-      >
-        <img draggable="false" src="assets/img/icons/phone.png" data-id={device._id} alt={`${device.name}`} title={`${device.name}`} />
+    <div className="wrap-device"
+      style={{ top: `${location.y}px`, left: `${location.x}px`, zIndex: zIndex }}>
+      <div className="device-icon" onMouseDown={sendClientDown} onTouchStart={sendClientDown}>
+        <img draggable="false" src={`assets/img/icons/${imgName}.png`} data-id={id} alt={`${name}`} title={`${name}`} />
       </div>
       <div className="title-device">
-        <span title={`${device.name}`}>{device.name}</span>
+        <span title={`${name}`}>{name}</span>
       </div>
-      {/* TO CHACK WHAT MORE EFECTIVE BUTTON OR DIV */}
-      <button className="device-btn-options"
-        onClick={() => toggleOptions ? setToggleOptions('') : setToggleOptions(device._id)}>
+      <button className="device-btn-options" onClick={toggle}>
         <img src="assets/img/icons/mehr3.png" alt="Options" />
       </button>
-      {toggleOptions === device._id &&
+      {toggleOptions === id &&
         <div className="device-options">
           <img src="assets/img/icons/details.png" alt="" />
           <img src={"assets/img/icons/make new connection.png"} alt="" onClick={newConnection} />
@@ -48,4 +46,4 @@ function DeviceMap({ device, clientDown, onCreateConnection }) {
   );
 }
 
-export default DeviceMap;
+export default React.memo(DeviceMap);

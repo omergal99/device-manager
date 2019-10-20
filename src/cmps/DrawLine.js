@@ -70,4 +70,4 @@ function DrawLine({ point1, point2, onRemoveConnection }) {
   );
 }
 
-export default DrawLine;
+export default React.memo(DrawLine);

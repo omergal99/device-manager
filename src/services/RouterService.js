@@ -2,6 +2,7 @@ const initialState = {
   list: [
     {
       _id: 'R10',
+      name: 'Router R10',
       manufacturer: 'Cisco',
       type: 'RV130',
       version: '4.2',
@@ -23,6 +24,7 @@ const initialState = {
     },
     {
       _id: 'R11',
+      name: 'Router R11',
       manufacturer: 'Amazon',
       type: 'R6120-100NAS',
       version: '4.2',
@@ -44,6 +46,7 @@ const initialState = {
     },
     {
       _id: 'R12',
+      name: 'Router R12',
       manufacturer: 'COMFAST',
       type: 'CF-WR610N',
       version: '4.2',
@@ -65,6 +68,7 @@ const initialState = {
     },
     {
       _id: 'R13',
+      name: 'Router R13',
       manufacturer: 'D-Link',
       type: 'DIR-878/IL/A1A',
       version: '4.2',

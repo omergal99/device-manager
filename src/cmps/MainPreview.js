@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import DeviceMap from './DeviceMap';
-import RoutersMap from './RoutersMap';
+import RelatedsMap from './RelatedsMap';
 import DrawLineList from './DrawLineList';
 
 import DraggingListener from './DraggingListener';
@@ -10,46 +10,35 @@ function MainPreview({ currDevice }) {
 
   const [device, setDevice] = useState(null);
   const [pointerDiff, setPointerDiff] = useState({ x: 1, y: 1 });
-  const [typeToMove, setTypeToMove] = useState(null);
+  const [capturedDeviceType, setCapturedDeviceType] = useState(null);
 
-  // ********************************** START
-  const calcPointerDiff = ({ clientX, clientY }, type) => {
-    let temp = { x: 1, y: 1 };
-    temp = (type.name === 'Device') ?
-      { x: clientX - device.location.x, y: clientY - device.location.y } : temp;
-    temp = (type.name === 'Router') ?
-      { x: clientX - device.routers[type.idx].location.x, y: clientY - device.routers[type.idx].location.y } : temp;
-    setPointerDiff(temp);
-  }
-  const clientDown = (ev, type) => {
-    // ev.stopPropagation();
-    // ev.preventDefault();
-    // ev.persist()
-    // console.log(ev)
-
-    // var copy = {...device};
-    // copy.isDraging = true;
-    // setDevice(copy);
-    setDevice(prevState => ({ ...prevState, isDraging: true }));
-
-    // console.log(type)
-    setTypeToMove(type);
-    const touches = ev.changedTouches;
-    (!touches) ? calcPointerDiff(ev, type)
-      : calcPointerDiff({ clientX: touches[0].clientX, clientY: touches[0].clientY }, type);
-  }
-
-  // ***************************************************** useEffect
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
       setDevice(currDevice);
     }
   }, [device, currDevice]);
 
-  const newDevice = DraggingListener(device, pointerDiff, typeToMove);
+  const newDevice = DraggingListener(device, pointerDiff, capturedDeviceType);
   useEffect(() => {
-      setDevice(newDevice);
+    setDevice(newDevice);
   }, [newDevice]);
+
+  const calcPointerDiff = ({ clientX, clientY }, type) => {
+    let temp = { x: 1, y: 1 };
+    temp = (type.value === 'Own') && { x: clientX - device.location.x, y: clientY - device.location.y };
+    if (type.value === 'Related') {
+      const idx = device.relatedDevices.findIndex(rel => rel._id === type.id);
+      temp = { x: clientX - device.relatedDevices[idx].location.x, y: clientY - device.relatedDevices[idx].location.y };
+    }
+    setPointerDiff(temp);
+  }
+  const clientDown = (ev, type) => {
+    setDevice(prevState => ({ ...prevState, isDraging: true }));
+    setCapturedDeviceType(type);
+    const touches = ev.changedTouches;
+    (!touches) ? calcPointerDiff(ev, type)
+      : calcPointerDiff({ clientX: touches[0].clientX, clientY: touches[0].clientY }, type);
+  }
 
   const createConnection = (originId, targetId) => {
     const isFound = device.connections
@@ -80,10 +69,9 @@ function MainPreview({ currDevice }) {
       <div className="playground">
         {device && device.location &&
           <>
-            <DeviceMap device={device} clientDown={clientDown} onCreateConnection={createConnection} />
-            <RoutersMap deviceId={device._id} routers={device.routers} clientDown={clientDown} onCreateConnection={createConnection} />
-            <DrawLineList lines={device.connections} routers={device.routers} onRemoveConnection={removeConnection}
-              deviceLocationId={{ location: device.location, _id: device._id }}
+            <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
+            <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
+            <DrawLineList device={device} onRemoveConnection={removeConnection}
             />
           </>
         }

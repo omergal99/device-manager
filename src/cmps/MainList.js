@@ -12,8 +12,8 @@ function MainList({ devices, isMobile, currDevice }) {
   return (
     <div className={`device-list ${isMobile ? 'mobile' : 'desktop'}`}>
       {devices.map(dev =>
-        <div className={`single-device ${currDevice && currDevice._id === dev._id ? 'selected' : ''} `} key={dev._id}
-          onClick={() => selectDevice(dev._id)}>
+        <div className={`single-device ${currDevice && currDevice._id === dev._id ? 'selected' : ''} `}
+          onClick={() => selectDevice(dev._id)} key={dev._id}>
           {dev.name}
         </div>
       )}
