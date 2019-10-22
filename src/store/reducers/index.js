@@ -1,5 +1,5 @@
 import HomeStore from './HomeStore';
-import DeviceStore from './DeviceStore';
+import MobileStore from './MobileStore';
 import RouterStore from './RouterStore';
 import ServerStore from './ServerStore';
 
@@ -7,7 +7,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
     homeStore: HomeStore,
-    deviceStore: DeviceStore,
+    mobileStore: MobileStore,
     routerStore: RouterStore,
     serverStore: ServerStore,
 });

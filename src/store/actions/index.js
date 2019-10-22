@@ -1,11 +1,11 @@
 import HomeActions from './HomeActions';
-import DeviceActions from './DeviceActions';
+import MobileActions from './MobileActions';
 import RouterActions from './RouterActions';
 import ServerActions from './ServerActions';
 
 export default {
     ...HomeActions,
-    ...DeviceActions,
+    ...MobileActions,
     ...RouterActions,
     ...ServerActions,
 };

@@ -1,21 +1,26 @@
-import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import Home from './pages/Home';
+import ManageDevice from './pages/ManageDevice';
 
-class Router extends Component {
+function Router() {
 
-  render() {
-    return (
-      <HashRouter>
-          <div className="route">
-            <Switch>
-              <Route exact path="/" component={Home} />
-            </Switch>
-          </div>
-      </HashRouter>
-    );
-  }
+  return (
+    <HashRouter>
+      <div className="route">
+        <h1>Device Manager</h1>
+        <Switch>
+
+          <Redirect exact from="/" to="manageDevice" />
+          <Route exact path="/manageDevice/:categories?" component={ManageDevice} />
+
+          <Route exact path="/home" component={Home} />
+
+        </Switch>
+      </div>
+    </HashRouter>
+  );
 }
 
 export default Router;
