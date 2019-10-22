@@ -52,7 +52,7 @@ function DrawLine({ point1, point2, onRemoveConnection }) {
 
   return (
     <>
-      <div className="btn-options" style={styles.options} >
+      <div className="svg-btn-options" style={styles.options} >
         <img className="btn" src="assets/img/icons/menu4.png" alt="Options"
           onClick={() => setToggleOptions(!toggleOptions)} />
         {toggleOptions &&

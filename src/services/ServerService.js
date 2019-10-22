@@ -2,7 +2,8 @@ const initialState = {
   list: [
     {
       _id: 'S1001',
-      name: 'Server 1',
+      name: 'Server S1001',
+      type: 'Server',
       language: 'Node.js',
       DB: 'MongoDB',
     },

@@ -4,6 +4,7 @@ import DeviceMap from './visualDisplay/DeviceMap';
 import RelatedsMap from './visualDisplay/RelatedsMap';
 import DrawLineList from './visualDisplay/DrawLineList';
 import DeviceDetails from './DeviceDetails';
+import DeviceHistory from './DeviceHistory';
 
 import DraggingDevice from './eventListeners/DraggingDevice';
 
@@ -60,28 +61,29 @@ function ManageDevicePreview({ currDevice }) {
     setDevice(copy);
   }
 
+  const categories = ['Details', 'Connections', 'History'].map(category => {
+    return <span key={category} className={`category ${device && selectedCategory === category && 'selected'}`}
+      onClick={() => setSelectedCategory(category)}>{category}</span>
+  })
+
   return (
     <div className="manage-device-preview">
 
       <div className="categories flex space-even wrap">
-        <span onClick={() => setSelectedCategory('Details')}>Details</span>
-        <span onClick={() => setSelectedCategory('Connections')}>Connections</span>
-        <span onClick={() => setSelectedCategory('History')}>History</span>
+        {categories}
       </div>
-
-      {selectedCategory === 'Connections' && device && device.location &&
+      {selectedCategory === 'Connections' && device &&
         <div className="visual-display">
           <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <DrawLineList device={device} onRemoveConnection={removeConnection} />
         </div>
       }
-
       {selectedCategory === 'Details' && device &&
         <DeviceDetails device={device} />
       }
-      {selectedCategory === 'History' &&
-        <h2>No History Yet</h2>
+      {selectedCategory === 'History' && device &&
+        <DeviceHistory device={device} />
       }
 
     </div>

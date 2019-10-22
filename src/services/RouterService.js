@@ -3,8 +3,9 @@ const initialState = {
     {
       _id: 'R10',
       name: 'Router R10',
+      type: 'Router',
       manufacturer: 'Cisco',
-      type: 'RV130',
+      catalog: 'RV130',
       version: '4.2',
       ip: '192.168.1.1',
       POE: true,
@@ -25,8 +26,9 @@ const initialState = {
     {
       _id: 'R11',
       name: 'Router R11',
+      type: 'Router',
       manufacturer: 'Amazon',
-      type: 'R6120-100NAS',
+      catalog: 'R6120-100NAS',
       version: '4.2',
       ip: '192.168.1.1',
       POE: true,
@@ -47,8 +49,9 @@ const initialState = {
     {
       _id: 'R12',
       name: 'Router R12',
+      type: 'Router',
       manufacturer: 'COMFAST',
-      type: 'CF-WR610N',
+      catalog: 'CF-WR610N',
       version: '4.2',
       ip: '192.168.1.1',
       POE: true,
@@ -69,8 +72,9 @@ const initialState = {
     {
       _id: 'R13',
       name: 'Router R13',
+      type: 'Router',
       manufacturer: 'D-Link',
-      type: 'DIR-878/IL/A1A',
+      catalog: 'DIR-878/IL/A1A',
       version: '4.2',
       ip: '192.168.1.1',
       POE: true,

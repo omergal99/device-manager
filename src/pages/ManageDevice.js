@@ -35,7 +35,8 @@ function ManageDevice() {
             <div className="mask-layer" style={{ display: isListOpen || 'none' }} onClick={toggleDeviceMenu}></div>
             <button onClick={toggleDeviceMenu}>Devices</button>
             {isListOpen &&
-              <ManageDeviceList devices={mobileStore.list} isMobile={true} currDevice={mobileStore.currDevice} />
+              <ManageDeviceList devices={mobileStore.list} isMobile={true} currDevice={mobileStore.currDevice}
+              toggleDeviceMenu={toggleDeviceMenu} />
             }
           </div>
         }

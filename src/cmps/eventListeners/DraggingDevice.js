@@ -10,7 +10,7 @@ function DraggingDevice(device, pointerDiff, capturedDeviceType) {
   const [, setUpdate] = useState('');
 
   const updateLocation = useCallback(({ clientX, clientY }) => {
-    let copy = device;
+    const copy = device;
     setUpdate({});
     !isMove && setIsMove(true);
     switch (capturedDeviceType.value) {
@@ -36,13 +36,15 @@ function DraggingDevice(device, pointerDiff, capturedDeviceType) {
 
   const clientUp = useCallback(() => {
     if (device && device.isDraging) {
-      setNewDevice(prevState => ({ ...prevState, isDraging: false }));
+      const copy = device;
+      copy.isDraging = false;
+      setNewDevice(copy);
       if (isMove) {
         setIsMove(false);
-        dispatch(actions.updateCurrDevice({ ...newDevice, isDraging: false }));
+        dispatch(actions.updateCurrDevice(copy));
       }
     }
-  }, [device, isMove, newDevice, dispatch])
+  }, [device, isMove, dispatch])
 
   useEffect(() => {
     window.addEventListener('mousemove', clientMove, false);

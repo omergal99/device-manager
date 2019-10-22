@@ -6,15 +6,44 @@ function DeviceDetails({ device }) {
   return (
     <div className="device-details">
       <h2>Details</h2>
-      <span>Name: {device.name}</span>
-      <span>Type: {device.type}</span>
-      <span>Manufacturer: {device.manufacturer}</span>
-      <span>OperatingSystem: {device.operatingSystem}</span>
-      <span>PublishDate: {device.publishDate}</span>
-      <span>NetworkType: {device.networkType}</span>
-      <span>Memory: {device.memory}</span>
-      <span>RAM: {device.RAM}</span>
-      <span>Processor: {device.processor}</span>
+      <div className="list">
+        <p>
+          <span className="title">Name: </span>
+          <span>{device.name}</span>
+        </p>
+        <p>
+          <span className="title">Type: </span>
+          <span>{device.type}</span>
+        </p>
+        <p>
+          <span className="title">Manufacturer: </span>
+          <span>{device.manufacturer}</span>
+        </p>
+        <p>
+          <span className="title">System: </span>
+          <span>{device.operatingSystem}</span>
+        </p>
+        <p>
+          <span className="title">Publish Date: </span>
+          <span>{device.publishDate}</span>
+        </p>
+        <p>
+          <span className="title">Network Type: </span>
+          <span>{device.networkType}</span>
+        </p>
+        <p>
+          <span className="title">Memory: </span>
+          <span>{device.memory}</span>
+        </p>
+        <p>
+          <span className="title">RAM: </span>
+          <span>{device.RAM}</span>
+        </p>
+        <p>
+          <span className="title">Processor: </span>
+          <span>{device.processor}</span>
+        </p>
+      </div>
     </div>
   );
 }

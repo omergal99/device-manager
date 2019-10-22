@@ -1,23 +1,26 @@
 .manage-device-preview {
   height: 100%;
   background-color: #cdc9e8;
-  flex-grow: 3;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   .categories {
-    min-height: 36px;
-    span {
+    .category {
       cursor: pointer;
       background-color: blanchedalmond;
       border-bottom: 1px solid #969696;
       // line-height: 200%;
       // margin: auto 0;
-      padding: 9px 0 6px 0;
+      padding: 8px 0;
       width: 33.333333%;
       min-width: 130px;
       flex-grow: 1;
+      &.selected{
+        background-color: #ffd89e;
+        font-weight: bold;
+      }
       &:hover {
-        background-color: rgb(255, 198, 133);
+        background-color: rgb(255, 230, 194);
       }
     }
   }

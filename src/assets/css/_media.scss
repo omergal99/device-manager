@@ -28,9 +28,13 @@
 
 // All desktop
 @media (min-width: 768px) {
-  // .only-mobile {
-  //   display: none;
-  // }
+  .manage-device-preview {
+    .device-details {
+      .list {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
 }
 
 // small desktop

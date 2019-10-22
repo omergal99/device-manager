@@ -5,12 +5,11 @@ import DrawLine from './DrawLine';
 function DrawLineList({ device, onRemoveConnection }) {
 
   const locationById = id => {
-    if (id.charAt(0) === 'R') {
+    if (id.charAt(0) === 'P' || id.charAt(0) === 'C') {
+      return device.location;
+    } else {
       const related = device.relatedDevices.find(rel => rel._id === id);
       return related.location;
-    }
-    if (id.charAt(0) === 'P') {
-      return device.location;
     }
   }
 

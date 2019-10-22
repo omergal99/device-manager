@@ -2,11 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import actions from '../store/actions';
 
-function ManageDeviceList({ devices, isMobile, currDevice }) {
+function ManageDeviceList({ devices, isMobile, currDevice, toggleDeviceMenu }) {
   const dispatch = useDispatch();
 
   const selectDevice = (id) => {
     dispatch(actions.changeCurrDeviceById(id));
+    isMobile && toggleDeviceMenu();
   }
 
   return (

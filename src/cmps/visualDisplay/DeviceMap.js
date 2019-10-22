@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function DeviceMap({ device: { type, connections = null, _id :id, name, location, zIndex }, onClientDown, onCreateConnection }) {
+function DeviceMap({ device: { type, connections = null, _id: id, name, location, zIndex }, onClientDown, onCreateConnection }) {
 
   const [toggleOptions, setToggleOptions] = useState('');
   const imgName = type.toLowerCase();
@@ -8,6 +8,7 @@ function DeviceMap({ device: { type, connections = null, _id :id, name, location
   const newConnection = () => {
     window.addEventListener('click', chackForConnection, false);
   }
+
   const chackForConnection = ev => {
     if (ev.target.getAttribute('src') !== 'assets/img/icons/make new connection.png') {
       const dataId = ev.target.getAttribute('data-id');
@@ -16,6 +17,7 @@ function DeviceMap({ device: { type, connections = null, _id :id, name, location
       setToggleOptions('');
     }
   }
+
   const sendClientDown = ev => {
     const relation = connections ? 'Own' : 'Related';
     onClientDown(ev, { value: relation, id });
@@ -32,13 +34,13 @@ function DeviceMap({ device: { type, connections = null, _id :id, name, location
       <div className="title">
         <span title={`${name}`}>{name}</span>
       </div>
-      <button className="btn-options" onClick={toggle}>
+      <button className="device-btn-options" onClick={toggle}>
         <img src="assets/img/icons/mehr3.png" alt="Options" />
       </button>
       {toggleOptions === id &&
         <div className="options">
           <img src="assets/img/icons/details.png" alt="" />
-          <img src={"assets/img/icons/make new connection.png"} alt="" onClick={newConnection} />
+          <img src="assets/img/icons/make new connection.png" alt="" onClick={newConnection} />
           <img src="assets/img/icons/history.png" alt="" />
         </div>
       }

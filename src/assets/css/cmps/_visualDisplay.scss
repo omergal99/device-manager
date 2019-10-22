@@ -1,5 +1,6 @@
 .manage-device-preview {
   .visual-display {
+    overflow: auto;
     height: 100%;
     position: relative;
     .device {
@@ -24,7 +25,7 @@
           padding: 0 4px;
         }
       }
-      .btn-options {
+      .device-btn-options {
         background-color: transparent;
         outline: transparent;
         padding: 0;
@@ -55,17 +56,19 @@
       }
     }
 
-    .btn-options {
+    .svg-btn-options {
       position: absolute;
       z-index: 5;
       opacity: 0.8;
       border-radius: 50%;
       .btn {
         height: 100%;
-        background-color: #ffeccebf;
         border-radius: 50%;
+        background-color: #ffeccebf;
       }
       .options {
+        height: 100%;
+        border-radius: 50%;
         position: absolute;
         top: calc(100% + 4px);
         left: 0;
