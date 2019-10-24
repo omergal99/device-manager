@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../store/actions';
 
+import RouterContext from "../RouterContext";
+
 import ManageDeviceList from '../cmps/ManageDeviceList';
 import ManageDevicePreview from '../cmps/ManageDevicePreview';
 
 import IsWinWidthDesk from '../cmps/eventListeners/IsWinWidthDesk';
 
-function ManageDevice() {
+function ManageDevice(props) {
+  const routeProps = {
+    match: props.match,
+    history: props.history,
+    location: props.location
+  };
 
   const dispatch = useDispatch();
   const mobileStore = useSelector(state => state.mobileStore);
@@ -17,6 +24,7 @@ function ManageDevice() {
 
   useEffect(() => {
     dispatch(actions.loadDeviceData());
+    // console.log(props)
   }, [dispatch]);
 
   const toggleDeviceMenu = () => {
@@ -24,6 +32,8 @@ function ManageDevice() {
   }
 
   return (
+    <RouterContext.Provider value={routeProps}>
+
     <div className="manage-device">
 
       <div className="bar">
@@ -49,6 +59,8 @@ function ManageDevice() {
         <ManageDevicePreview currDevice={mobileStore.currDevice} />
       </div>}
     </div>
+    </RouterContext.Provider>
+
   );
 }
 

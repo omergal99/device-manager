@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
+import useRouteProps from "../../useRouteProps";
 
-function DeviceMap({ device: { type, connections = null, _id: id, name, location, zIndex }, onClientDown, onCreateConnection }) {
+function DeviceMap({ device: { type, connections = null, _id: id, name, location: deviceLocation, zIndex },
+  onClientDown, onCreateConnection }) {
+
+  const [match, location, history] = useRouteProps();
 
   const [toggleOptions, setToggleOptions] = useState('');
   const imgName = type.toLowerCase();
+
+  const goTo = (value) => {
+    // console.log(match)
+    // console.log(location)
+    // console.log(history)
+    const NewUrl = `/manageDevice/${value}`;
+    (history.location.pathname !== NewUrl) && history.push(NewUrl);
+  }
 
   const newConnection = () => {
     window.addEventListener('click', chackForConnection, false);
@@ -27,7 +39,7 @@ function DeviceMap({ device: { type, connections = null, _id: id, name, location
 
   return (
     <div className="device"
-      style={{ top: `${location.y}px`, left: `${location.x}px`, zIndex: zIndex }}>
+      style={{ top: `${deviceLocation.y}px`, left: `${deviceLocation.x}px`, zIndex: zIndex }}>
       <div className="icon" onMouseDown={sendClientDown} onTouchStart={sendClientDown}>
         <img draggable="false" src={`assets/img/icons/${imgName}.png`} data-id={id} alt={`${name}`} title={`${name}`} />
       </div>
@@ -39,9 +51,9 @@ function DeviceMap({ device: { type, connections = null, _id: id, name, location
       </button>
       {toggleOptions === id &&
         <div className="options">
-          <img src="assets/img/icons/details.png" alt="" />
+          <img src="assets/img/icons/details.png" alt="" onClick={() => goTo('details')} />
           <img src="assets/img/icons/make new connection.png" alt="" onClick={newConnection} />
-          <img src="assets/img/icons/history.png" alt="" />
+          <img src="assets/img/icons/history.png" alt="" onClick={() => goTo('history')} />
         </div>
       }
     </div>

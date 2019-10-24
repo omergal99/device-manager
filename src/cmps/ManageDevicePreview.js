@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useRouteProps from "../useRouteProps";
 
 import DeviceMap from './visualDisplay/DeviceMap';
 import RelatedsMap from './visualDisplay/RelatedsMap';
@@ -10,10 +11,20 @@ import DraggingDevice from './eventListeners/DraggingDevice';
 
 function ManageDevicePreview({ currDevice }) {
 
+  const [match, location, history] = useRouteProps();
   const [device, setDevice] = useState(null);
   const [pointerDiff, setPointerDiff] = useState({ x: 1, y: 1 });
   const [capturedDeviceType, setCapturedDeviceType] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('Connections');
+  const [selectedCategory, setSelectedCategory] = useState('connections');
+
+  useEffect(() => {
+    const initUrlParams = `/manageDevice/connections`;
+    (history.location.pathname !== initUrlParams) && history.push(initUrlParams);
+    console.log(match);
+    console.log(location);
+    console.log(history);
+    // const id = this.props.match.params.id;
+  }, []);
 
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
@@ -61,31 +72,35 @@ function ManageDevicePreview({ currDevice }) {
     setDevice(copy);
   }
 
-  const categories = ['Details', 'Connections', 'History'].map(category => {
+  const onCatagoryClicked = (category) => {
+    const newUrl = `/manageDevice/${category}`;
+    (history.location.pathname !== newUrl) && history.push(newUrl);
+    setSelectedCategory(category);
+  }
+
+  const categories = ['details', 'connections', 'history'].map(category => {
     return <span key={category} className={`category ${device && selectedCategory === category && 'selected'}`}
-      onClick={() => setSelectedCategory(category)}>{category}</span>
+      onClick={() => onCatagoryClicked(category)}>{category}</span>
   })
 
   return (
     <div className="manage-device-preview">
-
       <div className="categories flex space-even wrap">
         {categories}
       </div>
-      {selectedCategory === 'Connections' && device &&
+      {selectedCategory === 'connections' && device &&
         <div className="visual-display">
           <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <DrawLineList device={device} onRemoveConnection={removeConnection} />
         </div>
       }
-      {selectedCategory === 'Details' && device &&
+      {selectedCategory === 'details' && device &&
         <DeviceDetails device={device} />
       }
-      {selectedCategory === 'History' && device &&
+      {selectedCategory === 'history' && device &&
         <DeviceHistory device={device} />
       }
-
     </div>
   );
 }
