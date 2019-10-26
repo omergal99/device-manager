@@ -7,7 +7,7 @@ App that manage your device connections and data transform
 ## React Redux Hooks
 
 ## Explanation:
-### USE Node version v10.16.3
+### USE Node version v12.13.0 (npm 6.12.0)
 
 Im use yarn so we need to install it:
 ### `npm i -g yarn` or not globaly: `npm i yarn`
