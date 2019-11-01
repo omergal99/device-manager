@@ -4,7 +4,10 @@ import useRouteProps from "../useRouteProps";
 import DeviceMap from './visualDisplay/DeviceMap';
 import RelatedsMap from './visualDisplay/RelatedsMap';
 import DrawLineList from './visualDisplay/DrawLineList';
+import ContinentsMap from './visualDisplay/ContinentsMap';
+
 import DeviceDetails from './DeviceDetails';
+
 import DeviceHistory from './DeviceHistory';
 
 import DraggingDevice from './eventListeners/DraggingDevice';
@@ -20,11 +23,16 @@ function ManageDevicePreview({ currDevice }) {
   useEffect(() => {
     const initUrlParams = `/manageDevice/connections`;
     (history.location.pathname !== initUrlParams) && history.push(initUrlParams);
-    console.log(match);
-    console.log(location);
-    console.log(history);
+    const match2 = match;
+    const location2 = location;
+    if(match2 && !location2) {
+      console.log('dddd')
+    }
+    // console.log(match);
+    // console.log(location);
+    // console.log(history);
     // const id = this.props.match.params.id;
-  }, []);
+  }, [history,match,location]);
 
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
@@ -93,6 +101,7 @@ function ManageDevicePreview({ currDevice }) {
           <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <DrawLineList device={device} onRemoveConnection={removeConnection} />
+          <ContinentsMap />
         </div>
       }
       {selectedCategory === 'details' && device &&

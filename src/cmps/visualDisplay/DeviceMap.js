@@ -9,6 +9,12 @@ function DeviceMap({ device: { type, connections = null, _id: id, name, location
   const [toggleOptions, setToggleOptions] = useState('');
   const imgName = type.toLowerCase();
 
+  const match2 = match;
+  const location2 = location;
+  if (match2 && !location2) {
+    console.log('dddd')
+  }
+
   const goTo = (value) => {
     // console.log(match)
     // console.log(location)
