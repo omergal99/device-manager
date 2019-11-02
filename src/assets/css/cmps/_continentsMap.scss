@@ -1,9 +1,25 @@
 .continents-map {
   height: 100%;
   width: 100%;
-  background-color: #b7cfe2;
   .svg-continents-map {
+    background-color: #0c1d2b;
     height: 100%;
     width: 100%;
+    position: relative;
+    .g-paths {
+      stroke-width: 2;
+      path {
+        cursor: pointer;
+        fill: #d4cec600;
+        transition: fill 0.4s;
+        &:hover {
+          fill: #7b7368;
+        }
+      }
+    }
+    .g-texts {
+      pointer-events: none;
+      user-select: none;
+    }
   }
 }
