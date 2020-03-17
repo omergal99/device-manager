@@ -4,7 +4,8 @@ import useRouteProps from "../../useRouteProps";
 function DeviceMap({ device: { type, connections = null, _id: id, name, location: deviceLocation, zIndex },
   onClientDown, onCreateConnection }) {
 
-  const [match, location, history] = useRouteProps();
+  const [ history] = useRouteProps();
+  // const [match, location, history] = useRouteProps();
 
   const [toggleOptions, setToggleOptions] = useState('');
   const imgName = type.toLowerCase();

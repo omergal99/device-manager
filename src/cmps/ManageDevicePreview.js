@@ -24,7 +24,7 @@ function ManageDevicePreview({ currDevice }) {
     console.log(location);
     console.log(history);
     // const id = this.props.match.params.id;
-  }, []);
+  }, [match, location, history]);
 
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
