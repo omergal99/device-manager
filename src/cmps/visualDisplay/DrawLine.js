@@ -60,7 +60,7 @@ function DrawLine({ point1, point2, onRemoveConnection }) {
             onClick={onRemoveConnection} />
         }
       </div>
-      <svg style={styles.svg}>
+      <svg style={styles.svg} className="svg-line">
         <line ref={line} />
         {/* <path ref={path} style={{ d: 'M 177 118 C 91 69 91 69 5 0', transform: 'translate(0,0.5)' }}
         pointerEvents="visibleStroke" version="1.1" fill="none" stroke="#456">
