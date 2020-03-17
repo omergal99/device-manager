@@ -25,18 +25,14 @@ function ManageDevicePreview({ currDevice }) {
     (history.location.pathname !== initUrlParams) && history.push(initUrlParams);
     const match2 = match;
     const location2 = location;
-    if(match2 && !location2) {
+    if (match2 && !location2) {
       console.log('dddd')
     }
     // console.log(match);
     // console.log(location);
     // console.log(history);
     // const id = this.props.match.params.id;
-<<<<<<< HEAD
-  }, [match, location, history]);
-=======
-  }, [history,match,location]);
->>>>>>> 7202e6e0ef58856819433a33524695ca6731259c
+  }, [history, match, location]);
 
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
@@ -105,7 +101,7 @@ function ManageDevicePreview({ currDevice }) {
           <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <DrawLineList device={device} onRemoveConnection={removeConnection} />
-          <ContinentsMap />
+          {/* <ContinentsMap /> */}
         </div>
       }
       {selectedCategory === 'details' && device &&
