@@ -101,7 +101,7 @@ function ManageDevicePreview({ currDevice }) {
           <DeviceMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <RelatedsMap device={device} onClientDown={clientDown} onCreateConnection={createConnection} />
           <DrawLineList device={device} onRemoveConnection={removeConnection} />
-          {/* <ContinentsMap /> */}
+          <ContinentsMap />
         </div>
       }
       {selectedCategory === 'details' && device &&
