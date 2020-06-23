@@ -22,17 +22,13 @@ function ManageDevicePreview({ currDevice }) {
 
   useEffect(() => {
     const initUrlParams = `/manageDevice/connections`;
-    (history.location.pathname !== initUrlParams) && history.push(initUrlParams);
+    (device && !match.params.categories) && history.push(initUrlParams);
     const match2 = match;
     const location2 = location;
     if (match2 && !location2) {
-      console.log('dddd')
+      console.log('just use location and match')
     }
-    // console.log(match);
-    // console.log(location);
-    // console.log(history);
-    // const id = this.props.match.params.id;
-  }, [history, match, location]);
+  }, [history, match, location, device]);
 
   useEffect(() => {
     if ((currDevice && !device) || (currDevice && device && currDevice._id !== device._id)) {
@@ -64,6 +60,7 @@ function ManageDevicePreview({ currDevice }) {
   }
 
   const createConnection = (originId, targetId) => {
+    console.log('createConnection');
     const isFound = device.connections
       .find(con => (con[0] === originId && con[1] === targetId) || (con[1] === originId && con[0] === targetId));
     if (!isFound) {
@@ -82,6 +79,7 @@ function ManageDevicePreview({ currDevice }) {
 
   const onCatagoryClicked = (category) => {
     const newUrl = `/manageDevice/${category}`;
+    console.log(newUrl);
     (history.location.pathname !== newUrl) && history.push(newUrl);
     setSelectedCategory(category);
   }
